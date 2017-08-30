@@ -67,6 +67,14 @@ var preversionOnly = {
   }
 }
 
+var nonZeroScriptCode = {
+  name: 'scripted',
+  version: '1.2.3',
+  scripts: {
+    'boom': 'exit 77'
+  }
+}
+
 function testOutput (t, command, er, code, stdout, stderr) {
   var lines
 
@@ -319,6 +327,16 @@ test('npm run-script no-params (direct only)', function (t) {
     t.notOk(code, 'npm exited without error code')
     t.notOk(stderr, 'npm printed nothing to stderr')
     t.equal(stdout, expected, 'got expected output')
+    t.end()
+  })
+})
+
+test('npm run-script exit code', function (t) {
+  writeMetadata(nonZeroScriptCode)
+
+  common.npm(['run-script', 'boom'], opts, function (err, code, stdout, stderr) {
+    t.ifError(err, 'ran run-script ending in exit code without crashing')
+    t.equal(code, 77, 'got expected non-zero exit code')
     t.end()
   })
 })

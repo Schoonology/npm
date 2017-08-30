@@ -185,7 +185,7 @@ fine:
 Scripts are run by passing the line as a script argument to `sh`.
 
 If the script exits with a code other than 0, then this will abort the
-process.
+process and exit with that same non-zero code.
 
 Note that these script files don't have to be nodejs or even
 javascript programs. They just have to be some kind of executable
